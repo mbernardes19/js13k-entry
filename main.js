@@ -1,6 +1,6 @@
 import Player from './Player.js';
 import State from './State.js';
-import  Sprite from './Sprite.js';
+import Sprite from './Sprite.js';
 import GameLoop from './GameLoop.js';
 import Grid from './Grid.js';
 import Tile from './Tile.js';
@@ -13,15 +13,12 @@ canvas.height = CANVAS_HEIGHT;
 const ctx = canvas.getContext('2d');
 
 const grid = new Grid(CANVAS_WIDTH, CANVAS_HEIGHT, ctx);
-grid.defineGrid();
+grid.create();
+const tiles = grid.getTiles([2,0],[5,6]);
+grid.changeTilesType(tiles, 2);
 grid.render();
-console.log(grid);
-/*for(let i = 0; i < grid.columns; i++) {
-    const tile = new Tile(grid.tileSize, 3);
-    tile.column = i;
-    grid.tiles.push(tile);
-}*/
 
+console.log(grid);
 
 const player1 = new Player('Matheus', ctx);
 
