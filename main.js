@@ -4,6 +4,7 @@ import Sprite from './Sprite.js';
 import GameLoop from './GameLoop.js';
 import Grid from './Grid.js';
 import Tile from './Tile.js';
+import InputHandler from './InputHandler.js';
 
 const CANVAS_WIDTH = window.innerWidth - (window.innerWidth % 32);
 const CANVAS_HEIGHT = window.innerHeight - (window.innerHeight % 32);
@@ -20,36 +21,17 @@ grid.render();
 
 console.log(grid);
 
-const player1 = new Player('Matheus', ctx);
+const player1 = new Player('Matheus');
+const input = new InputHandler(player1);
 
-// const gameLoop = new GameLoop(30);
-// window.addEventListener('click', () => gameLoop.rev());
+ const gameLoop = new GameLoop(30);
+ window.addEventListener('click', () => gameLoop.rev());
 
-// gameLoop.startGameLoop(loop);
+ gameLoop.startGameLoop(loop);
 
 
 function loop() {
-    let i = player1._states.length - 1;
-if (!gameLoop.reversed) {
-    const newState =
-        new State(
-            player1._currentState.x + 10,
-            player1._currentState.y + 10,
-            player1._currentState.hp,
-            player1._currentState.sprite 
-        )
-    player1._currentState = newState;
-    player1.addState(newState);
-    player1.drawPlayer();
-}
-else {
-    if (i-gameLoop.frameCount >= 0) {
-        const existingState = player1._states[i-gameLoop.frameCount];
-        player1._currentState = existingState;
-        player1.drawReverse();
-        gameLoop.frameCount++;
-    }
-}
+    player1.update(gameLoop, input);
 
 
 }
