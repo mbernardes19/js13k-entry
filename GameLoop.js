@@ -1,13 +1,11 @@
 export default class GameLoop {
-    constructor(fps) {
+    constructor() {
         this.stop = false;
         this.frameCount = 0;
-        this.fps = fps;
+        this.fps;
         this.fpsInterval;
-        this.startTime;
-        this.now;
-        this.then;
-        this.elapsed;
+        this.currentRenderTime = 0;
+        this.lastRenderTime = 0;
         this.reversed = false;
         this._this = this;
     }
@@ -20,12 +18,23 @@ export default class GameLoop {
         return this.reversed === true;
     }
 
-    startGameLoop(gameLoop){
+    loop(currentRenderTime, fps) {
+        const fpsInMs = ((1/fps)*1000);
+        let frameTime = currentRenderTime - this.lastRenderTime;
+        if (frameTime >= fpsInMs) {
+            this.lastRenderTime = currentRenderTime; 
+            console.log(frameTime);
+            this.update(frameTime);
+        }
+        window.requestAnimationFrame(time => this.loop(time,fps));
+    }
 
-            // draw stuff here
-            console.log(typeof gameLoop)
-            gameLoop();
+    update(frameTime) {
+        
+    }
 
-            requestAnimationFrame(res => this.startGameLoop(gameLoop));
-    }   
+    startLoop(fps) {
+        window.requestAnimationFrame(time => this.loop(time,fps));
+    }
+    
 }

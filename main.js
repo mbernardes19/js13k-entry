@@ -13,25 +13,38 @@ canvas.width = CANVAS_WIDTH ;
 canvas.height = CANVAS_HEIGHT;
 const ctx = canvas.getContext('2d');
 
-const grid = new Grid(CANVAS_WIDTH, CANVAS_HEIGHT, ctx);
-grid.create();
-const tiles = grid.getTiles([2,0],[5,6]);
-grid.changeTilesType(tiles, 2);
-grid.render();
+const rows = 4;
+const columns = 4;
 
-console.log(grid);
-
-const player1 = new Player('Matheus');
-const input = new InputHandler(player1);
-
- const gameLoop = new GameLoop(30);
- window.addEventListener('click', () => gameLoop.rev());
-
- gameLoop.startGameLoop(loop);
+const gameLoop = new GameLoop();
+gameLoop.startLoop(1)
 
 
-function loop() {
-    player1.update(gameLoop, input);
+const level = [
+    [1,1,1,1],
+    [1,2,2,1],
+    [1,3,3,1],
+    [1,2,1,1]
+];
+
+drawLevel(level);
 
 
+function drawLevel(level) {
+    for(let i = 0; i < columns; i++) {
+        for(let j = 0; j < rows; j++) {
+                if (level[i][j] === 1)
+                    ctx.fillStyle = 'black'; 
+                if (level[i][j] === 2)
+                    ctx.fillStyle = 'blue'; 
+                if (level[i][j] === 3)
+                    ctx.fillStyle = 'red'; 
+            ctx.fillRect(32*j, 32*i, 32, 32);
+        }
+    }
 }
+
+
+
+
+
