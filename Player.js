@@ -5,11 +5,7 @@ export default class Player {
     constructor(name, ctx) {
         this._name = name;
         this._hp = 100;
-        const canvas = document.createElement('canvas')
-        document.body.append(canvas);
-        canvas.width = 500;
-        canvas.height = 500;
-        this._ctx = canvas.getContext('2d');
+        this._ctx = ctx;
         this._currentSprite = new Sprite(100, 100, new Image());
         this._initialState = {
             x: 150,

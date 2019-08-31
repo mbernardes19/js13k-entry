@@ -5,46 +5,47 @@ import GameLoop from './GameLoop.js';
 import Grid from './Grid.js';
 import Tile from './Tile.js';
 import InputHandler from './InputHandler.js';
+import LevelBuilder from './LevelBuilder.js';
 
-const CANVAS_WIDTH = window.innerWidth - (window.innerWidth % 32);
-const CANVAS_HEIGHT = window.innerHeight - (window.innerHeight % 32);
+
+const CANVAS_WIDTH = 384;
+const CANVAS_HEIGHT = 288;
 const canvas = document.querySelector('canvas');
 canvas.width = CANVAS_WIDTH ;
 canvas.height = CANVAS_HEIGHT;
 const ctx = canvas.getContext('2d');
 
-const rows = 4;
-const columns = 4;
 
+// PLAYER //
+const player1 = new Player('Santiael', ctx);
+
+// GAME LOOP //
 const gameLoop = new GameLoop();
-gameLoop.startLoop(1)
+gameLoop.startLoop(1);
+
+// LEVEL BUILDER //
+const levelBuilder = new LevelBuilder(ctx);
+
+insertLevel().then(lvl => {
+    levelBuilder.renderLevel(lvl.graphical_map);
+});
+
+// INPUT HANDLER //
+const inputHandler = new InputHandler(player1);
 
 
-const level = [
-    [1,1,1,1],
-    [1,2,2,1],
-    [1,3,3,1],
-    [1,2,1,1]
-];
-
-drawLevel(level);
 
 
-function drawLevel(level) {
-    for(let i = 0; i < columns; i++) {
-        for(let j = 0; j < rows; j++) {
-                if (level[i][j] === 1)
-                    ctx.fillStyle = 'black'; 
-                if (level[i][j] === 2)
-                    ctx.fillStyle = 'blue'; 
-                if (level[i][j] === 3)
-                    ctx.fillStyle = 'red'; 
-            ctx.fillRect(32*j, 32*i, 32, 32);
-        }
-    }
+
+
+// HELPER FUNCTIONS // 
+
+function getLevel(number) {
+    return fetch(`./lvls/lvl${number}.json`)
+            .then(res => res.json())
 }
 
-
-
-
-
+async function insertLevel() {
+    const level = getLevel('01');
+    return await level;
+}
