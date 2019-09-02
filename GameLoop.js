@@ -8,6 +8,7 @@ export default class GameLoop {
         this.lastRenderTime = 0;
         this.reversed = false;
         this._this = this;
+        this.loopFunction;
     }
 
     rev() {
@@ -23,14 +24,13 @@ export default class GameLoop {
         let frameTime = currentRenderTime - this.lastRenderTime;
         if (frameTime >= fpsInMs) {
             this.lastRenderTime = currentRenderTime; 
-            console.log(frameTime);
             this.update(frameTime);
         }
         window.requestAnimationFrame(time => this.loop(time,fps));
     }
 
     update(frameTime) {
-        
+        this.loopFunction();
     }
 
     startLoop(fps) {

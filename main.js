@@ -6,6 +6,7 @@ import Grid from './Grid.js';
 import Tile from './Tile.js';
 import InputHandler from './InputHandler.js';
 import LevelBuilder from './LevelBuilder.js';
+import Collider from './Collider.js';
 
 
 const CANVAS_WIDTH = 384;
@@ -15,20 +16,71 @@ canvas.width = CANVAS_WIDTH ;
 canvas.height = CANVAS_HEIGHT;
 const ctx = canvas.getContext('2d');
 
+canvas.style.transform = "scale(1.5)";
+canvas.style.position = "relative";
+canvas.style.top = '100px';
+
 
 // PLAYER //
 const player1 = new Player('Santiael', ctx);
 
 // GAME LOOP //
 const gameLoop = new GameLoop();
-gameLoop.startLoop(1);
+const levelBuilder = new LevelBuilder(ctx);
+gameLoop.startLoop(30);
+
+let level = {
+    "player_initial_position": {},
+    "graphical_map":[
+        [1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,2,2,2,2,2,2,3,2,2,2,1],
+        [1,3,3,2,2,2,3,3,1,2,3,1],
+        [1,2,1,1,1,1,1,1,1,1,1,1],
+        [1,2,1,1,1,1,1,1,1,1,1,1],
+        [1,2,1,1,1,1,1,1,1,1,1,1],
+        [1,2,1,1,1,1,1,1,1,1,1,1],
+        [1,2,1,1,1,1,1,1,1,1,1,1],
+        [1,2,1,1,1,1,1,1,1,1,1,1]
+    ],
+    "collision_map": []
+
+}
+
+const collider = new Collider(level.graphical_map, 12, 9)
+
+canvas.addEventListener('click', () => {
+    gameLoop.reversed = !gameLoop.reversed;
+})
+
+gameLoop.loopFunction = () => {
+    collider.collideObject(player1);
+
+    let i = player1._states.length - 1;
+
+    if (!gameLoop.isReversed()) {
+        levelBuilder.renderLevel(level);
+        player1.drawPlayer();
+        gameLoop.frameCount = 0;
+    }
+    else {
+        levelBuilder.renderLevel(level);
+        if (i-gameLoop.frameCount >= 0) {
+            const existingState = player1._states[i-gameLoop.frameCount];
+            player1._currentState = existingState;
+            player1.drawPlayerReverse();
+            gameLoop.frameCount++;
+        }
+        else {
+            player1.drawPlayerReverse();
+        }
+    }
+    
+};
 
 // LEVEL BUILDER //
-const levelBuilder = new LevelBuilder(ctx);
 
-insertLevel().then(lvl => {
-    levelBuilder.renderLevel(lvl.graphical_map);
-});
+
+
 
 // INPUT HANDLER //
 const inputHandler = new InputHandler(player1);
