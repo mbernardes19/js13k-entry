@@ -1,16 +1,14 @@
 import State from './State.js';
 import Sprite from './Sprite.js';
+import Object from './Object.js';
 
-export default class Player {
+export default class Player extends Object {
     constructor(name, ctx) {
+        super(180, 180,64,64);
         this._name = name;
         this._hp = 100;
-        const canvas = document.createElement('canvas')
-        document.body.append(canvas);
-        canvas.width = 500;
-        canvas.height = 500;
-        this._ctx = canvas.getContext('2d');
-        this._currentSprite = new Sprite(100, 100, new Image());
+        this._ctx = ctx;
+        this._currentSprite = new Sprite(64, 64, new Image());
         this._initialState = {
             x: 150,
             y: 150,
@@ -20,6 +18,8 @@ export default class Player {
         this._currentState = this._initialState;
         this._states = [this._initialState];
         this.speed = 20;
+        this.movedLeft = false;
+        this.movedRight = false;
     }
 
     get name() {
@@ -50,41 +50,30 @@ export default class Player {
     }
     
     drawPlayer() {
-        if (this._states.length > 2) {
-            this._ctx.clearRect(this._states[this._states.length-2].x,this._states[this._states.length-2].y,100,100);
-//            this._ctx.globalAlpha = 1.0;
+        if (this.movedLeft) {
+            this.x_old = this.currentState.x;
+            this.x = this._currentState.x - this.speed;
         }
+        if (this.movedRight) {
+            this.x_old = this.currentState.x;
+            this.x = this._currentState.x + this.speed;
+        }
+            
         this._ctx.fillStyle = 'red';
+        const newState = new State(this.x,this.y,this.hp, this.currentSprite);
+        this.addState(newState);
+        this.currentState = newState;
         this._ctx.fillRect(this._currentState.x, this._currentState.y, this._currentState.sprite.width, this._currentState.sprite.height);
+
+        console.log('x: ', this.x);
+        console.log('x_old: ', this.x_old);
+        this.movedLeft = false;
+        this.movedRight = false;
     }
                                                                                                                                                                                                   
     drawPlayerReverse() {
         this._ctx.fillStyle = 'blue';
         this._ctx.fillRect(this._currentState.x, this._currentState.y, this._currentState.sprite.width, this._currentState.sprite.height);
-    }
-
-    moveLeft() {
-        const newState = new State(
-            this._currentState.x - this.speed,
-            this._currentState.y,
-            this._currentState.hp,
-            this._currentState.sprite 
-        )
-        this.currentState = newState;
-        this.addState(newState);
-        console.log(this.currentState);
-    }
-
-    moveRight() {
-        const newState = new State(
-            this._currentState.x + this.speed,
-            this._currentState.y,
-            this._currentState.hp,
-            this._currentState.sprite 
-        )
-        this.currentState = newState;
-        this.addState(newState);
-        console.log(this.currentState);
     }
 
     update(gameLoop) {
