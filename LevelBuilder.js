@@ -8,13 +8,15 @@ export default class LevelBuilder {
     }
 
     renderLevel(level) {
+        this.currentLevel = level;
+        const levelGraphics = level.graphical_map;
         for(let i = 0; i < this.columns; i++) {
             for(let j = 0; j < this.rows; j++) {
-                    if (level[j][i] === 1)
+                    if (levelGraphics[j][i] === 1)
                         this.ctx.fillStyle = 'black'; 
-                    if (level[j][i] === 2)
+                    if (levelGraphics[j][i] === 2)
                         this.ctx.fillStyle = 'blue'; 
-                    if (level[j][i] === 3)
+                    if (levelGraphics[j][i] === 3)
                         this.ctx.fillStyle = 'red'; 
                 this.ctx.fillRect(this.TILE_SIZE*i, this.TILE_SIZE*j, this.TILE_SIZE, this.TILE_SIZE);
             }

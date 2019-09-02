@@ -10,11 +10,15 @@ export default class InputHandler {
                     break;
                 }
                 case 'ArrowLeft': {
-                    player.moveLeft();
+                    player.movedLeft = true;
+                    player.movedRight = false;
+                    player.drawPlayer();
                     break;
                 }
                 case 'ArrowRight': {
-                    player.moveRight();
+                    player.movedRight = true;
+                    player.movedLeft = false;
+                    player.drawPlayer();
                     break;
                 }
             }
