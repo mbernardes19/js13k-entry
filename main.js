@@ -89,7 +89,8 @@ gameLoop.loopFunction = () => {
 
 
 // INPUT HANDLER //
-const inputHandler = new InputHandler(player1);
+const inputHandler = new InputHandler(player1, collider);
+inputHandler.runEvents();
 
 
 

@@ -73,8 +73,6 @@ export default class Player extends Object {
     moveLeft() {
         this.x_old = this.x;
         this.x = this.x - this.speed;
-        console.log(this.x);
-        console.log(this.x_old);
     }
 
     update(gameLoop) {

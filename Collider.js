@@ -14,17 +14,20 @@ export default class Collider {
         right = Math.floor(object.getRight() / 32);
         // console.log('Top: ',top,' Left: ', left,' Right: ',right);
         value = this.collisionMap[top][left];
-        this.collide(value, object, left * 32, top * 32)
+        return this.collide(value, object, left * 32, top * 32)
     }
 
     collide(value, object, tile_x, tile_y) {
         switch(value){
             case 2: {
                 this.collidePlatformRight(object, tile_x + 32)
+                object.collided = true;
+                return true;
                 break;
             }
         }
-
+        object.collided = false;
+        return false;
     }
 
     collidePlatformTop(object, tile_y) {
