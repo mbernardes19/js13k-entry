@@ -30,7 +30,10 @@ const levelBuilder = new LevelBuilder(ctx);
 gameLoop.startLoop(30);
 
 let level = {
-    "player_initial_position": {},
+    "player_initial_position": {
+        x: 32,
+        y: 160
+    },
     "graphical_map":[
         [1,1,1,1,1,1,1,1,1,1,1,1],
         [1,2,2,2,2,2,2,3,2,2,2,1],
@@ -38,15 +41,18 @@ let level = {
         [1,2,1,1,1,1,1,1,1,1,1,1],
         [1,2,1,1,1,1,1,1,1,1,1,1],
         [1,2,1,1,1,1,1,1,1,1,1,1],
-        [1,2,1,1,1,1,1,1,1,1,1,1],
-        [1,2,1,1,1,1,1,1,1,1,1,1],
-        [1,2,1,1,1,1,1,1,1,1,1,1]
+        [2,2,2,2,2,2,2,2,2,2,2,2],
+        [2,2,2,2,2,2,2,2,2,2,2,2],
+        [2,2,2,2,2,2,2,2,2,2,2,2]
     ],
     "collision_map": []
 
 }
 
 const collider = new Collider(level.graphical_map, 12, 9)
+player1.x = level.player_initial_position.x;
+player1.y = level.player_initial_position.y;
+player1._initialState = new State(player1.x, player1.y, player1._initialState.hp, player1._initialState.sprite)
 
 canvas.addEventListener('click', () => {
     gameLoop.reversed = !gameLoop.reversed;

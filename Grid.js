@@ -33,7 +33,7 @@ export default class Grid {
             const areaLength = tileStart.id > tileEnd.id ? tileStart.id - tileEnd.id + 1 : tileEnd.id - tileStart.id + 1;
             const tiles = [];
 
-            console.log('tileStartId: ', tileStart.id, 'tileEndId: ', tileEnd.id, 'areaLength: ', areaLength);
+            // console.log('tileStartId: ', tileStart.id, 'tileEndId: ', tileEnd.id, 'areaLength: ', areaLength);
             let idx = tileStart.id;    
             for(let i = 0; i < areaLength; i++) {
                 if (idx >= tileStart.id && idx <= tileEnd.id) {

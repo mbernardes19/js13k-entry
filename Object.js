@@ -6,6 +6,7 @@ export default class Object {
         this.y = y;
         this.x_old = x;
         this.y_old = y;
+        this.collided = false;
     }
 
     getTop() {return this.y;}

@@ -4,14 +4,14 @@ import Object from './Object.js';
 
 export default class Player extends Object {
     constructor(name, ctx) {
-        super(180, 180,64,64);
+        super(64, 128,32,32);
         this._name = name;
         this._hp = 100;
         this._ctx = ctx;
-        this._currentSprite = new Sprite(64, 64, new Image());
+        this._currentSprite = new Sprite(32, 32, new Image());
         this._initialState = {
-            x: 150,
-            y: 150,
+            x: 64,
+            y: 128,
             hp: 100,
             sprite: this._currentSprite
         }
@@ -50,23 +50,12 @@ export default class Player extends Object {
     }
     
     drawPlayer() {
-        if (this.movedLeft) {
-            this.x_old = this.currentState.x;
-            this.x = this._currentState.x - this.speed;
-        }
-        if (this.movedRight) {
-            this.x_old = this.currentState.x;
-            this.x = this._currentState.x + this.speed;
-        }
-            
         this._ctx.fillStyle = 'red';
         const newState = new State(this.x,this.y,this.hp, this.currentSprite);
         this.addState(newState);
         this.currentState = newState;
         this._ctx.fillRect(this._currentState.x, this._currentState.y, this._currentState.sprite.width, this._currentState.sprite.height);
 
-        console.log('x: ', this.x);
-        console.log('x_old: ', this.x_old);
         this.movedLeft = false;
         this.movedRight = false;
     }
@@ -74,6 +63,18 @@ export default class Player extends Object {
     drawPlayerReverse() {
         this._ctx.fillStyle = 'blue';
         this._ctx.fillRect(this._currentState.x, this._currentState.y, this._currentState.sprite.width, this._currentState.sprite.height);
+    }
+
+    moveRight() {
+        this.x_old = this.x;
+        this.x = this.x + this.speed;
+    }
+
+    moveLeft() {
+        this.x_old = this.x;
+        this.x = this.x - this.speed;
+        console.log(this.x);
+        console.log(this.x_old);
     }
 
     update(gameLoop) {
