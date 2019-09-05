@@ -20,6 +20,7 @@ export default class InputHandler {
                 break;
             }
             case 'ArrowLeft': {
+                console.log('aqui')
                 this.left.getInput(down);
                 if (!this.collider.collideObject(this.player)){
                     this.player.moveLeft();
@@ -39,6 +40,5 @@ export default class InputHandler {
     }
     runEvents(){
         window.addEventListener('keydown', this.keyDownUp);
-        window.addEventListener('keyup', this.keyDownUp);
     }
 }

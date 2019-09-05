@@ -8,6 +8,8 @@ import InputHandler from './InputHandler.js';
 import LevelBuilder from './LevelBuilder.js';
 import Collider from './Collider.js';
 
+let levels = JSON.parse(JSON.stringify(levelsJSON));
+let level = levels[0];
 
 const CANVAS_WIDTH = 384;
 const CANVAS_HEIGHT = 288;
@@ -28,26 +30,6 @@ const player1 = new Player('Santiael', ctx);
 const gameLoop = new GameLoop();
 const levelBuilder = new LevelBuilder(ctx);
 gameLoop.startLoop(30);
-
-let level = {
-    "player_initial_position": {
-        x: 32,
-        y: 160
-    },
-    "graphical_map":[
-        [1,1,1,1,1,1,1,1,1,1,1,1],
-        [1,2,2,2,2,2,2,3,2,2,2,1],
-        [1,3,3,2,2,2,3,3,1,2,3,1],
-        [1,2,1,1,1,1,1,1,1,1,1,1],
-        [1,2,1,1,1,1,1,1,1,1,1,1],
-        [1,2,1,1,1,1,1,1,1,1,1,1],
-        [2,2,2,2,2,2,2,2,2,2,2,2],
-        [2,2,2,2,2,2,2,2,2,2,2,2],
-        [2,2,2,2,2,2,2,2,2,2,2,2]
-    ],
-    "collision_map": []
-
-}
 
 const collider = new Collider(level.graphical_map, 12, 9)
 player1.x = level.player_initial_position.x;
@@ -99,12 +81,10 @@ inputHandler.runEvents();
 
 // HELPER FUNCTIONS // 
 
-function getLevel(number) {
-    return fetch(`./lvls/lvl${number}.json`)
-            .then(res => res.json())
-}
 
-async function insertLevel() {
-    const level = getLevel('01');
-    return await level;
+async function getLevel(number) {
+    let response = await fetch(`./lvls/lvl${number}.json`)
+    let data = await response.json();
+    level = data;
+    console.log(level);
 }
